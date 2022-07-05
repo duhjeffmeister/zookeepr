@@ -2,7 +2,7 @@
 const express = require('express');
 
 // Creates a route that the front end can request data from
-const { animals } = require('./data/animals');
+const { animals } = require('./data/animals.json');
 
 // Tells our app to use the specific port if it has been set, but if not, default to port 3001
 const PORT = process.env.PORT || 3001;
