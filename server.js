@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3001;
 
 // Instantiates the server
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Takes in "req.query" as an argument and filter through the animals accordingly, returning the new filtered array
 function filterByQuery(query, animalsArray) {
@@ -69,7 +71,7 @@ app.get('/api/animals', (req, res) => {
   }
 
   // Responds with a JSON after taking the query parameter. If you repeat the same query name with different
-  // values, it would becone an array in the JSON.
+  // values, it would become an array in the JSON.
   // res.json(animals)
   // res.send('Hello!');
   res.json(results);
