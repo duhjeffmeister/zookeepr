@@ -4,6 +4,9 @@ const express = require('express');
 // Creates a route that the front end can request data from
 const {animals} = require('./data/animals');
 
+// Tells our app to use the specific port if it has been set, but if not, default to port 3001
+const PORT = process.env.PORT || 3001;
+
 // Instantiates the server
 const app = express();
 
@@ -68,7 +71,7 @@ app.get('/api/animals', (req, res) => {
 // Method that makes the server listen. Ports 80 are typically for "http://" sites and 443 is typically for
 // "https://" sites. Ports with numbers 1024 and below are considered special by the operating system and
 // often require special permissions (such as running the process as an administrator).
-app.listen(3001, () => {
-    console.log(`API server now on port 3001!`);
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
 
