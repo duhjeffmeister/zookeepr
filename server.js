@@ -29,6 +29,11 @@ app.use(express.urlencoded({ extended: true}));
 // to accept POST data.
 app.use(express.json());
 
+// Provides a file path to a location in our application (in this case the public folder) and this instructs the server
+// to make these files static resources, meaning all of the front-end code can now be accessed without having a specific
+// server endpoint created for it.
+app.use(express.static('public'));
+
 // Takes in "req.query" as an argument and filter through the animals accordingly, returning the new filtered array
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -147,6 +152,17 @@ app.get('/api/animals/:id', (req, res) => {
   } else {
     res.send(404);
   }
+});
+
+// Adds route from the index.html file to server.js. Having just a / route points us to the root route of
+// the server. This is used to create a homepage for a server. Since it is only supposed to respond with a
+// HTML page to display in browser, we use res.sendFile() instead of res.json() which tells them where to
+// find the file we want our server to read and send back to the client. We are using the path module again
+// to ensure we're finding the correct location for the HTML code we want to display in the browser. That way,
+// we know it will work in any server environment. The URL only shows http://localhost:3001 because we're just
+// linking the contents of the file to the browser, not the actual file.
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.post('/api/animals', (req, res) => {
