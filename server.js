@@ -106,7 +106,7 @@ function createNewAnimal (body, animalsArray) {
   );
 
   // Return finished code to post route for response
-  return body;
+  return animal;
 }
 
 // Creates validation function to make sure our data is correct. This runs the animal parameter (content of the
