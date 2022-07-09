@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const $animalForm = document.querySelector('#animals-form');
 const $displayArea = document.querySelector('#display-area');
 
@@ -25,14 +27,35 @@ const printResults = resultArr => {
 const getAnimals = (formData = {}) => {
   let queryUrl = '/api/animals?';
 
+  // The object formData is passed into Object.entries() to create query parameters, simply needing
+  // the request to be made using query URL.
   Object.entries(formData).forEach(([key, value]) => {
     queryUrl += `${key}=${value}&`;
   });
 
   console.log(queryUrl);
 
+  // Standard fetch() usage for making a GET request. When using fetch() we have to check to see if
+  // the ok property in the response is true or false. This is the part that checks for any HTTP status
+  // code that signifies an error. If there's an error we alert the user that there's something wrong.
+  // If everything's ok, we use the .json() method to parse our response into readable JSON format. When
+  // that is completed, we send our array of animal data to the printResults() function where it generates
+  // cards for each animal and prints them to the page.
+  fetch(queryURL)
+    .then(response = > {
+      if (!response.ok) {
+        return alert('Error: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(animalData => {
+      console.log(animalData);
+      printResults(animalData);
+    });
 };
 
+// This function gathers all of the form input data and packages it as an object to send to
+// getAnimals() as the formData argument.
 const handleGetAnimalsSubmit = event => {
   event.preventDefault();
   const dietRadioHTML = $animalForm.querySelectorAll('[name="diet"]');

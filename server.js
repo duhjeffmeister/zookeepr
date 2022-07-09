@@ -8,7 +8,7 @@ const path = require('path');
 const express = require('express');
 
 // Creates a route that the front end can request data from
-const { animals } = require('./data/animals.json');
+const { animals } = require('./data/animals');
 
 // Tells our app to use the specific port if it has been set, but if not, default to port 3001
 const PORT = process.env.PORT || 3001;
@@ -162,6 +162,28 @@ app.get('/api/animals/:id', (req, res) => {
 // we know it will work in any server environment. The URL only shows http://localhost:3001 because we're just
 // linking the contents of the file to the browser, not the actual file.
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// This route takes us to the animals.html file. The endpoint is just /animals which is intentional because
+// when we create routes we need to stay organized and set expectations of what type of data is being
+// transferred at that endpoint. We can assume that a route that has the term api in it will deal in transference
+// of JSON data, whereas more normal looking endpoints such as /animals should serve as an HTML page. Express.js
+// isn't opinionated about how routes should be named and organized, so that's a system developers must create.
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+// This route takes us to the zookeepers.html file
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// Wildcard Routes: The * is a wildcard, which means that any route that wasn't previously defined will fall
+// under this request and will receive the homepage as the response. The wildcard route should ALWAYS come last
+// as the order of your routes matter. If this is above any other routes, then all routes will point towards the
+// wildcard route.
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
